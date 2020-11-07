@@ -6,6 +6,14 @@ The license is unchanged (Apache-2.0 License).
 
 The only functional change is a minor one. Internet permission has been removed by removing update functionality. This is simply a personal preference.
 
+Using release signing based on "gradle.properties" in your gradle config directory (which usually defaults to "~/.gradle").
+Add the following lines to that file `
+keystoreFile=C:\\somewhere\\key.jks
+keystorePassword=<keystore password>
+keystoreAlias=<key alias>
+keystoreAliasPassword=<key password>
+`
+
 ---
 
 **Download**: [![Latest release](https://img.shields.io/github/release/KieronQuinn/TapTap.svg?maxAge=3600&label=download)](https://github.com/KieronQuinn/TapTap/releases)
