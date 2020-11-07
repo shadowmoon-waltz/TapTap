@@ -34,10 +34,8 @@ import com.airbnb.lottie.model.KeyPath
 import com.kieronquinn.app.taptap.R
 import com.kieronquinn.app.taptap.fragments.BaseFragment
 import com.kieronquinn.app.taptap.fragments.bottomsheets.MaterialBottomSheetDialogFragment
-import com.kieronquinn.app.taptap.fragments.bottomsheets.UpdateBottomSheetFragment
 import com.kieronquinn.app.taptap.fragments.setup.BaseSetupFragment
 import com.kieronquinn.app.taptap.utils.*
-import com.kieronquinn.app.taptap.workers.UpdateCheckWorker
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.applySystemWindowInsetsToMargin
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
@@ -71,8 +69,6 @@ class SettingsActivity : AppCompatActivity(), NavController.OnDestinationChanged
     }
 
     private var isFirstStart = true
-
-    val updateChecker by lazy { UpdateChecker() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,25 +105,6 @@ class SettingsActivity : AppCompatActivity(), NavController.OnDestinationChanged
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         switch_main.isChecked = isMainEnabled
         switch_main.setOnCheckedChangeListener(checkListener)
-        updateChecker.getLatestRelease { success, updateChecker ->
-            if(success){
-                updateChecker.newUpdate.value?.let {
-                    //New update available!
-                    showUpdateBottomSheet(it)
-                }
-            }else{
-                Toast.makeText(this, getString(R.string.update_error), Toast.LENGTH_LONG).show()
-            }
-        }
-        UpdateCheckWorker.queueCheckWorker(this)
-    }
-
-    fun showUpdateBottomSheet(update: UpdateChecker.Update? = updateChecker.newUpdate.value, force: Boolean = false) {
-        update ?: return
-        if(!force && !isFirstStart) return
-        MaterialBottomSheetDialogFragment.create(UpdateBottomSheetFragment().apply {
-            arguments = bundleOf(UpdateBottomSheetFragment.KEY_UPDATE to update)
-        }, supportFragmentManager, "bs_update"){}
     }
 
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {

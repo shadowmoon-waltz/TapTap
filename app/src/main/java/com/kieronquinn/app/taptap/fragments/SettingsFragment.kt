@@ -219,12 +219,6 @@ class SettingsFragment : BaseSettingsFragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_main, menu)
-        (activity as? SettingsActivity)?.updateChecker?.newUpdate?.run {
-            observe(this@SettingsFragment, Observer {
-                menu.findItem(R.id.menu_update).isVisible = it != null
-            })
-            menu.findItem(R.id.menu_update).isVisible = this.value != null
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -234,9 +228,6 @@ class SettingsFragment : BaseSettingsFragment() {
                     it.title(R.string.bs_beta_title)
                     it.message(R.string.bs_beta)
                 }
-            }
-            R.id.menu_update -> {
-                (activity as? SettingsActivity)?.showUpdateBottomSheet(force = true)
             }
             R.id.menu_setup_wizard -> {
                 startActivity(Intent(context, SettingsActivity::class.java).apply {

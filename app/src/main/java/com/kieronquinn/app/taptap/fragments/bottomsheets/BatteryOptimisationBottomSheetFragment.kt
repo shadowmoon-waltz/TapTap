@@ -13,7 +13,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.kieronquinn.app.taptap.BuildConfig
 import com.kieronquinn.app.taptap.R
 import com.kieronquinn.app.taptap.activities.ModalActivity
-import com.kieronquinn.app.taptap.utils.UpdateChecker
 import com.kieronquinn.app.taptap.utils.formatChangelog
 import com.kieronquinn.app.taptap.utils.getSpannedText
 import dev.chrisbanes.insetter.Insetter

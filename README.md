@@ -1,5 +1,13 @@
 # Tap, Tap
 
+Fork (with only minor changes) of [project of same name](https://github.com/KieronQuinn/TapTap). Changes will be described in this section; other sections are from original readme and may not reflect fork changes.
+
+The license is unchanged (Apache-2.0 License).
+
+The only functional change is a minor one. Internet permission has been removed by removing update functionality. This is simply a personal preference.
+
+---
+
 **Download**: [![Latest release](https://img.shields.io/github/release/KieronQuinn/TapTap.svg?maxAge=3600&label=download)](https://github.com/KieronQuinn/TapTap/releases)
 
 ---
