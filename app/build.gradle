@@ -8,7 +8,20 @@ apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 def gitCommitHash = 'git rev-parse --verify --short HEAD'.execute().text.trim()
 def tagName = '0.9_beta'
 
+boolean signConfigExists = project.hasProperty("keystoreFile") && project.hasProperty("keystorePassword") && project.hasProperty("keystoreAlias") && project.hasProperty("keystoreAliasPassword")
+
 android {
+    if (signConfigExists) {
+        signingConfigs {
+            release {
+                storeFile file(project.property("keystoreFile"))
+                storePassword project.property("keystorePassword")
+                keyAlias project.property("keystoreAlias")
+                keyPassword project.property("keystoreAliasPassword")
+            }
+        }
+    }
+
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -34,6 +47,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            if (signConfigExists) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 
