@@ -20,7 +20,6 @@ import com.kieronquinn.app.taptap.utils.extensions.dip
 import com.kieronquinn.app.taptap.utils.extensions.observe
 import com.kieronquinn.app.taptap.components.base.BaseFragment
 import com.kieronquinn.app.taptap.components.base.BoundFragment
-import com.kieronquinn.app.taptap.ui.screens.update.UpdateBottomSheetFragment
 import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -32,7 +31,6 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 class ContainerFragment: BoundFragment<FragmentContainerBinding>(FragmentContainerBinding::class.java) {
 
     private val viewModel by sharedViewModel<ContainerViewModel>()
-    private val updateChecker by inject<UpdateChecker>()
 
     private val navHostFragment by lazy {
         childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -129,28 +127,6 @@ class ContainerFragment: BoundFragment<FragmentContainerBinding>(FragmentContain
         requireActivity().onBackPressedDispatcher.addCallback {
             onBack()
         }
-        checkForUpdates()
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO){
-                updateChecker.clearCachedDownloads(requireContext())
-            }
-            updateChecker.updateAvailable.collect { updateAvailable ->
-                binding.toolbar.menu.findItem(R.id.menu_update)?.let {
-                    it.isVisible = updateAvailable
-                }
-            }
-        }
-    }
-
-    private fun checkForUpdates() = lifecycleScope.launch {
-        updateChecker.getLatestRelease().collect {
-            if(it != null && childFragmentManager.findFragmentByTag("bs_update") == null && !updateChecker.hasDismissedDialog){
-                val extra = bundleOf(UpdateBottomSheetFragment.KEY_UPDATE to it)
-                UpdateBottomSheetFragment().apply {
-                    arguments = extra
-                }.show(childFragmentManager, "bs_update")
-            }
-        }
     }
 
     private fun onBack(){
@@ -161,7 +137,6 @@ class ContainerFragment: BoundFragment<FragmentContainerBinding>(FragmentContain
 
     private fun MaterialToolbar.inflateTapMenu(){
         inflateMenu(R.menu.menu_main)
-        menu.findItem(R.id.menu_update)?.isVisible = updateChecker.updateAvailable.value
     }
 
     private var toolbarColorAnimation: ValueAnimator? = null

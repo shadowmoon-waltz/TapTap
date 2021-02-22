@@ -11,7 +11,6 @@ import com.google.android.systemui.columbus.sensors.config.Adjustment
 import com.google.android.systemui.columbus.sensors.config.GestureConfiguration
 import com.kieronquinn.app.taptap.core.*
 import com.kieronquinn.app.taptap.utils.AppIconRequestHandler
-import com.kieronquinn.app.taptap.utils.UpdateChecker
 import com.kieronquinn.app.taptap.utils.extensions.activityManagerNative
 import com.kieronquinn.app.taptap.ui.screens.container.ContainerViewModel
 import com.kieronquinn.app.taptap.ui.screens.modal.ModalNoGyroscopeViewModel
@@ -41,7 +40,6 @@ import com.kieronquinn.app.taptap.ui.screens.setup.configuration.preference.Setu
 import com.kieronquinn.app.taptap.ui.screens.setup.configuration.preference.modelpicker.SetupConfigurationPreferenceModelPickerBottomSheetViewModel
 import com.kieronquinn.app.taptap.ui.screens.setup.foss.SetupFossInfoViewModel
 import com.kieronquinn.app.taptap.ui.screens.setup.landing.SetupLandingViewModel
-import com.kieronquinn.app.taptap.ui.screens.update.download.UpdateDownloadBottomSheetViewModel
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -112,10 +110,6 @@ class TapTapApplication : Application() {
                 viewModel { AppPickerViewModel() }
                 //About
                 viewModel { SettingsAboutViewModel() }
-                //Updater
-                viewModel { UpdateDownloadBottomSheetViewModel(getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager) }
-                //Update module
-                single { UpdateChecker() }
             }
             modules(modules)
         }

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.kieronquinn.app.taptap.R
-import com.kieronquinn.app.taptap.core.workers.UpdateCheckWorker
 import dev.chrisbanes.insetter.Insetter
 
 class SettingsActivity: AppCompatActivity() {
@@ -23,7 +22,6 @@ class SettingsActivity: AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
         }
         setContentView(R.layout.activity_setup)
-        UpdateCheckWorker.queueCheckWorker(this)
     }
 
 }

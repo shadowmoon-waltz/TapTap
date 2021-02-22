@@ -12,11 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.kieronquinn.app.taptap.R
 import com.kieronquinn.app.taptap.core.TapSharedPreferences
-import com.kieronquinn.app.taptap.utils.UpdateChecker
 import com.kieronquinn.app.taptap.utils.extensions.update
 import com.kieronquinn.app.taptap.components.base.BaseViewModel
 import com.kieronquinn.app.taptap.ui.screens.settings.main.beta.SettingsMainBetaBottomSheetDialogFragment
-import com.kieronquinn.app.taptap.ui.screens.update.UpdateBottomSheetFragment
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
@@ -180,23 +178,11 @@ class ContainerViewModel(private val tapSharedPreferences: TapSharedPreferences)
         when(menuItem.itemId){
             R.id.menu_setup_wizard -> tapSharedPreferences.hasSeenSetup = false
             R.id.menu_beta -> showBetaBottomSheet(fragment)
-            R.id.menu_update -> showUpdateBottomSheet(fragment)
         }
     }
 
     private fun showBetaBottomSheet(fragment: Fragment){
         SettingsMainBetaBottomSheetDialogFragment().show(fragment.childFragmentManager, "bs_beta")
-    }
-
-    private fun showUpdateBottomSheet(fragment: Fragment) = viewModelScope.launch {
-        val updateChecker by inject(UpdateChecker::class.java)
-        updateChecker.getLatestRelease().collect {
-            if(it != null && fragment.childFragmentManager.findFragmentByTag("bs_update") == null) {
-                UpdateBottomSheetFragment().apply {
-                    arguments = bundleOf(UpdateBottomSheetFragment.KEY_UPDATE to it)
-                }.show(fragment.childFragmentManager, "bs_update")
-            }
-        }
     }
 
     sealed class ContainerState {
