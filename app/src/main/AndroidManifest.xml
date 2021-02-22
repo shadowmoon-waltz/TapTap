@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kieronquinn.app.taptap">
 
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -12,6 +14,7 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true"/>
 
     <application
@@ -21,7 +24,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SettingsActivity">
+        <activity android:name="com.kieronquinn.app.taptap.ui.activities.SettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,15 +34,19 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".activities.WakeUpActivity"
+            android:name="com.kieronquinn.app.taptap.ui.activities.WakeUpActivity"
+            android:theme="@style/TransparentActivity" />
+        <activity
+            android:name="com.kieronquinn.app.taptap.ui.activities.UnlockDeviceActivity"
             android:theme="@style/TransparentActivity" />
 
-        <activity android:name=".activities.AppPickerActivity" />
-        <activity android:name=".activities.ModalActivity" />
+        <activity android:name="com.kieronquinn.app.taptap.ui.activities.AppPickerActivity" />
+        <activity android:name="com.kieronquinn.app.taptap.ui.activities.ModalActivity" />
 
         <service
-            android:name=".services.TapAccessibilityService"
+            android:name="com.kieronquinn.app.taptap.core.services.TapAccessibilityService"
             android:label="@string/accessibility_service_label"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
@@ -52,7 +59,7 @@
         </service>
 
         <service
-            android:name=".services.TapGestureAccessibilityService"
+            android:name="com.kieronquinn.app.taptap.core.services.TapGestureAccessibilityService"
             android:label="@string/accessibility_service_label_gesture"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
@@ -77,7 +84,7 @@
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/AppTheme.ThirdPartyLicences" />
         <activity
-            android:name=".activities.ActivityConfigTaskerEvent"
+            android:name="com.kieronquinn.app.taptap.ui.activities.ActivityConfigTaskerEvent"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/tasker_config_label">
@@ -86,7 +93,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ActivityConfigTaskerEventTriple"
+            android:name="com.kieronquinn.app.taptap.ui.activities.ActivityConfigTaskerEventTriple"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/tasker_config_label_triple">
@@ -95,12 +102,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ReachabilityActivity"
+            android:name="com.kieronquinn.app.taptap.ui.activities.ReachabilityActivity"
             android:theme="@style/ReachabilityTheme" />
 
-        <service android:name=".services.TapForegroundService" />
+        <service android:name="com.kieronquinn.app.taptap.core.services.TapForegroundService" />
         <service
-            android:name=".services.TapQSTile"
+            android:name="com.kieronquinn.app.taptap.core.services.TapQSTile"
             android:icon="@drawable/ic_taptap_logo"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -108,6 +115,16 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>
