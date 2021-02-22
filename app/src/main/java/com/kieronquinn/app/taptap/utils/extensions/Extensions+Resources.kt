@@ -2,7 +2,7 @@ package com.kieronquinn.app.taptap.utils.extensions
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.annotation.ArrayRes
+import androidx.annotation.ArrayRes
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration
