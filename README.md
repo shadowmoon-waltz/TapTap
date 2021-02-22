@@ -4,6 +4,8 @@ Fork (with only minor changes) of [project of same name](https://github.com/Kier
 
 The license is unchanged (Apache-2.0 License).
 
+Main gradle build command: assembleRelease
+
 The only functional change is a minor one. Internet permission has been removed by removing update functionality. This is simply a personal preference.
 
 Using release signing based on "gradle.properties" in your gradle config directory (which usually defaults to "~/.gradle").
